@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        {% set  flag = set_flag_false(l_flag) %}
+        {% for state in obj.values()|sort(attribute='name') %}
+            
+            {% if state.id == id %}
+                {% set flag = set_flag_true(l_flag) %}
+                <H1>State: {{state.name}}</H1>
+                <h3>Cities:</h3>
+                <UL>
+                    {% if storagetype == db %}
+                        {% for city in state.cities|sort(attribute='name') %}
+                            <li>{{city.id}}: <B>{{city.name}}</B></li>
+                        {% endfor %}
+                    {% else %}
+                        {% for city in state.cities|sort(attribute='name') %}
+                            <li>{{city.id}}: <B>{{city.name}}</B></li>
+                        {% endfor %}
+                    {% endif %}
+                </UL>
+            {% elif  l_flag['flag'] is false and loop.last %}
+                <H1>Not found!</H1>            
+            {% endif %}
+        {% endfor %}
+    </BODY>
+</HTML>
