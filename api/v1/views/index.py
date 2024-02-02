@@ -28,7 +28,9 @@ def status_check():
 
 @app_views.route("/stats")
 def stats():
-    """ """
+    """
+    return raport about the objects counter
+    """
     objs = {}
     for key, value in classes.items():
         objs[key] = storage.count(value)
