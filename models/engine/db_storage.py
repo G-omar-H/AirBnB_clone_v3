@@ -13,6 +13,10 @@ from models.state import State
 from models.place import Place
 from models.review import Review
 from models.user import User
+from models.amenity import Amenity
+
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 
 class DBStorage:
@@ -40,22 +44,15 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """
-        query on the current database session
-        all objects depending of the class name (argument cls)
-        """
-        obj_dict = {}
-        objs_list = ["User", "State", "City", "Place", "Amenity", "Review"]
-        objs = []
-        if cls is not None:
-            objs.extend(self.__session.query(cls).all())
-        else:
-            for table_name in objs_list:
-                objs.extend(self.__session.query(table_name).all())
-        for obj in objs:
-            key = f"{obj.__class__.__name__}.{obj.id}"
-            obj_dict[key] = obj
-        return obj_dict
+        """query on the current database session"""
+        new_dict = {}
+        for clss in classes:
+            if cls is None or cls is classes[clss] or cls is clss:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    new_dict[key] = obj
+        return (new_dict)
 
     def new(self, obj):
         """
@@ -95,3 +92,29 @@ class DBStorage:
         Return: return_description
         """
         self.__session.close()
+
+    def get(self, cls, id):
+        """
+        returns object based on it's class and id
+        None if not found
+        Args:
+            id (int): id of the class instance
+            cls (obj): class object_
+        """
+        key = f"{cls.__name__}.{id}"
+        if key in self.all().keys():
+            return self.__session.query(cls).filter_by(id=id).first()
+        else:
+            return None
+
+    def count(self, cls=None):
+        """
+        returns number of objects in storage matching the given class.
+        if no class count number of all objects in storage
+
+        Args:
+            cls (_obj_, optional): class object to count. Defaults to None.
+        """
+        if cls:
+            return len(self.all(cls))
+        return len(self.all())
