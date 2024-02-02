@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""listing all the states"""
+"""
+listing all the states
+"""
 from flask import Flask, Blueprint, jsonify, request, make_response, abort
 from models import storage
 from models.state import State
@@ -8,7 +10,9 @@ from api.v1.views import app_views
 
 @app_views.route("/states", strict_slashes=False, methods=["GET"])
 def get_states():
-    """get all the states"""
+    """
+    get all the states
+    """
     states_list = []
     states = storage.all(State)
     for state in states.values():
@@ -18,7 +22,9 @@ def get_states():
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=["GET"])
 def get_state(state_id):
-    """get a state"""
+    """
+    get a state
+    """
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -27,7 +33,9 @@ def get_state(state_id):
 
 @app_views.route("/states", strict_slashes=False, methods=["POST"])
 def create_state():
-    """create a state"""
+    """
+    create a state
+    """
     if not request.get_json():
         abort(400, "Not a JSON")
 
@@ -41,7 +49,9 @@ def create_state():
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
 def update_state(state_id):
-    """update a state"""
+    """
+    update a state
+    """
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -57,7 +67,9 @@ def update_state(state_id):
 @app_views.route("/states/<state_id>", strict_slashes=False,
                  methods=["DELETE"])
 def delete_state(state_id):
-    """delete a state"""
+    """
+    delete a state
+    """
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
