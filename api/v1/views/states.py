@@ -6,7 +6,7 @@ from models.state import State
 from api.v1.views import app_views
 
 
-@app_views.route('/states', strict_slashes=False, methods=['GET'])
+@app_views.route("/states", strict_slashes=False, methods=["GET"])
 def get_states():
     """get all the states"""
     states_list = []
@@ -14,8 +14,9 @@ def get_states():
     for state in states.values():
         states_list.append(state.to_dict())
     return jsonify(states_list)
-  
-@app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
+
+
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["GET"])
 def get_state(state_id):
     """get a state"""
     state = storage.get(State, state_id)
@@ -23,20 +24,22 @@ def get_state(state_id):
         abort(404)
     return jsonify(state.to_dict())
 
-@app_views.route('/states', strict_slashes=False, methods=['POST'])
+
+@app_views.route("/states", strict_slashes=False, methods=["POST"])
 def create_state():
     """create a state"""
     if not request.get_json():
-      abort(400, "Not a JSON")
-        #return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if 'name' not in request.get_json():
-      abort(400, "Missing name")
-        #return make_response(jsonify({"error": "Missing name"}), 400)
+        abort(400, "Not a JSON")
+
+    if "name" not in request.get_json():
+        abort(400, "Missing name")
+
     new_state = State(**request.get_json())
     new_state.save()
     return jsonify(new_state.to_dict()), 201
 
-@app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
+
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
 def update_state(state_id):
     """update a state"""
     state = storage.get(State, state_id)
@@ -45,12 +48,14 @@ def update_state(state_id):
     if not request.get_json():
         abort(400, "Not a JSON")
     for key, value in request.get_json().items():
-        if key not in ['id', 'created_at', 'updated_at']:
+        if key not in ["id", "created_at", "updated_at"]:
             setattr(state, key, value)
     state.save()
     return jsonify(state.to_dict()), 200
 
-@app_views.route('/states/<state_id>', strict_slashes=False, methods=['DELETE'])
+
+@app_views.route("/states/<state_id>", strict_slashes=False,
+                 methods=["DELETE"])
 def delete_state(state_id):
     """delete a state"""
     state = storage.get(State, state_id)
