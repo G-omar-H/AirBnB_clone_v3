@@ -3,7 +3,7 @@
 script to start a flask application sever
 """
 
-from flask import Flask, Blueprint, render_template, abort
+from flask import Flask, Blueprint, render_template, abort, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 
@@ -17,6 +17,13 @@ def teardown(Exception):
     teardown method
     """
     storage.close()
+
+@app.errorhandler(404)
+def notfound(e):
+    """
+    handle not found custom error 
+    """
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":
