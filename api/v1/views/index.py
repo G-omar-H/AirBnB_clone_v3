@@ -23,7 +23,7 @@ classes = {
 }
 
 
-@app_views.route("/status", methods=['GET'])
+@app_views.route("/status", strict_slashes=False, methods=['GET'])
 def status_check():
     """
     return the status of the api
@@ -31,7 +31,7 @@ def status_check():
     return {"status": "OK"}
 
 
-@app_views.route("/stats", methods=['GET'])
+@app_views.route("/stats", strict_slashes=False, methods=['GET'])
 def stats():
     """
     return raport about the objects counter
