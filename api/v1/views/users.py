@@ -5,9 +5,8 @@ view for User object that handles all defaults RESTFUL API actions
 
 from flask import Flask, jsonify, abort, request
 from api.v1.views import app_views
-from models import storage, User
-import requests
-import json
+from models.user import User
+from models import storage
 
 
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=["GET"])
