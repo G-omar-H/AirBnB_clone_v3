@@ -3,7 +3,8 @@
 script to start a flask application sever
 """
 
-from flask import Flask, Blueprint, render_template, abort, make_response, jsonify
+from flask import Flask, Blueprint, \
+            render_template, abort, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 
