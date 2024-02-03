@@ -35,10 +35,10 @@ def get_amin_id(amenity_id):
                  strict_slashes=False, methods=["DELETE"])
 def delete_amn_id(amenity_id):
     """delete a specific amenity by its ID"""
-    Amenity = storage.get(Amenity, amenity_id)
-    if Amenity is None:
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
         abort(404)
-    storage.delete(Amenity)
+    storage.delete(amenity)
     storage.save()
     return jsonify({}), 200
 
