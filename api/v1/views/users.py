@@ -69,7 +69,7 @@ def create_user():
 
 
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=["PUT"])
-def create_user(user_id):
+def update_user(user_id):
     """
     update the user by id
     Args:
