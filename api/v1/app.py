@@ -1,29 +1,36 @@
 #!/usr/bin/python3
-"""flask"""
-from flask import Flask, render_template, jsonify
+"""
+script to start a flask application sever
+"""
+
+from flask import Flask, Blueprint, \
+            render_template, abort, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
-from flask_cors import CORS
 
 app = Flask(__name__)
 app.register_blueprint(app_views, url_prefix="/api/v1")
+
 host = getenv('HBNB_API_HOST') if getenv('HBNB_API_HOST') else '0.0.0.0'
 port = getenv('HBNB_API_PORT') if getenv('HBNB_API_PORT') else 5000
-cors = CORS(app, resources={'/*': {'origins': '0.0.0.0'}})
 
 
 @app.teardown_appcontext
 def teardown_db(self):
-    """teardown"""
+    """
+    teardown method
+    """
     storage.close()
 
 
 @app.errorhandler(404)
-def page_not_found(e):
-    """404ed"""
-    return jsonify({"error": "Not found"}), 404
+def notfound(e):
+    """
+    handle not found custom error
+    """
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
-if __name__ == '__main__':
-    app.run(host=host, port=port, threaded=True)
+if __name__ == "__main__":
+    app.run(host=host, port=int(port), threaded=True)
