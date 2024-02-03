@@ -67,7 +67,7 @@ def update_state_id(state_id):
     """
     data = request.get_json()
     if not data:
-        abort(400, "Not a json")
+        abort(400, "Not a JSON")
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -87,7 +87,7 @@ def create_city(city_id):
     """
     data = request.get_json()
     if not data:
-        abort(400, "Not a json")
+        abort(400, "Not a JSON")
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
