@@ -17,7 +17,7 @@ port = getenv('HBNB_API_PORT') if getenv('HBNB_API_PORT') else 5000
 
 
 @app.teardown_appcontext
-def teardown(Exception):
+def teardown_db(self):
     """
     teardown method
     """
