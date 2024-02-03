@@ -42,7 +42,8 @@ def review_by_id(review_id):
     return jsonify(review.to_dict())
 
 
-@app_views.route("/reviews/<review_id>", strict_slashes=False, methods=["DELETE"])
+@app_views.route("/reviews/<review_id>",
+                 strict_slashes=False, methods=["DELETE"])
 def get_rid_of_review(review_id):
     """
     delette a review
@@ -97,7 +98,8 @@ def update_review(review_id):
     if review is None:
         abort(404)
     for key, value in data.items():
-        if key not in ["id", "user_id", "place_id" ,  "created_at", "updated_at"]:
+        if key not in ["id", "user_id", "place_id",
+                       "created_at", "updated_at"]:
             setattr(review, key, value)
     review.save()
     return jsonify(review.to_dict()), 200

@@ -10,8 +10,7 @@ import requests
 import json
 
 
-@app_views.route("/users/<user_id>",
-                 strict_slashes=False, methods=["GET"])
+@app_views.route("/users/<user_id>", strict_slashes=False, methods=["GET"])
 def users_by_id(user_id):
     """
     returns the user under the give id
@@ -54,8 +53,7 @@ def get_rid_of_user(user_id):
     return jsonify({}), 200
 
 
-@app_views.route("/users",
-                 strict_slashes=False, methods=["POST"])
+@app_views.route("/users", strict_slashes=False, methods=["POST"])
 def creates_user():
     """
     create a new instance of |User
