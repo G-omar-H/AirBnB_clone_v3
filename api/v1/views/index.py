@@ -28,7 +28,12 @@ def status_check():
     """
     return the status of the api
     """
-    return jsonify({"status": "OK"})
+    data = {
+        "status": "OK"
+    }
+    response = jsonify(data)
+    response.status_code = 200
+    return  response
 
 
 @app_views.route("/stats", strict_slashes=False, methods=['GET'])
