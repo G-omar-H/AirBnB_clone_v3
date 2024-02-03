@@ -42,6 +42,8 @@ class BaseModel:
 
     def __str__(self):
         """String representation of the BaseModel class"""
+        if "_sa_instance_state" in self.__dict__.keys():
+            del self.__dict__["_sa_instance_state"]
         return "[{:s}] ({:s}) {}".format(
             self.__class__.__name__, self.id, self.__dict__
         )
