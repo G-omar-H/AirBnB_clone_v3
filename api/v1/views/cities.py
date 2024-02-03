@@ -3,10 +3,10 @@
 view for City object that handles all defaults RESTFUL API actions
 """
 
+from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from models import storage, City, State
 import requests
-from api.v1.views import app_views
 import json
 
 
@@ -74,7 +74,7 @@ def update_state_id(state_id):
     if "name" not in data.keys():
         abort(400, "Missing name")
     city = City(**data)
-    storage.save()
+    city.save()
     return jsonify(city.to_dict()), 201
 
 
@@ -94,5 +94,5 @@ def create_city(city_id):
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
             setattr(city, key, value)
-    storage.save()
+    city.save()
     return jsonify(city.to_dict()), 200
