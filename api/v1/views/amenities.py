@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-creating route for amenities class with its requests
+creating route for amenities class with its requests done
 """
 from flask import Flask, Blueprint, jsonify, request, make_response, abort
 from models import storage
