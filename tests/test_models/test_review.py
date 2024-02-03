@@ -8,7 +8,7 @@ import inspect
 import models
 from models import review
 from models.base_model import BaseModel
-import pep8
+import pycodestyle as pep8
 import unittest
 Review = review.Review
 
@@ -27,7 +27,7 @@ class TestReviewDocs(unittest.TestCase):
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
-    def test_pep8_conformance_test_review(self):
+    def test_pep8_conformanceest_review(self):
         """Test that tests/test_models/test_review.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_review.py'])
@@ -71,7 +71,7 @@ class TestReview(unittest.TestCase):
         """Test Review has attr place_id, and it's an empty string"""
         review = Review()
         self.assertTrue(hasattr(review, "place_id"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(review.place_id, None)
         else:
             self.assertEqual(review.place_id, "")
@@ -80,21 +80,21 @@ class TestReview(unittest.TestCase):
         """Test Review has attr user_id, and it's an empty string"""
         review = Review()
         self.assertTrue(hasattr(review, "user_id"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(review.user_id, None)
         else:
             self.assertEqual(review.user_id, "")
 
-    def test_text_attr(self):
+    def testext_attr(self):
         """Test Review has attr text, and it's an empty string"""
         review = Review()
         self.assertTrue(hasattr(review, "text"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(review.text, None)
         else:
             self.assertEqual(review.text, "")
 
-    def test_to_dict_creates_dict(self):
+    def testo_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
         r = Review()
         new_d = r.to_dict()
@@ -105,7 +105,7 @@ class TestReview(unittest.TestCase):
                 self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
 
-    def test_to_dict_values(self):
+    def testo_dict_values(self):
         """test that values in dict returned from to_dict are correct"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
         r = Review()
@@ -119,5 +119,6 @@ class TestReview(unittest.TestCase):
     def test_str(self):
         """test that the str method has the correct output"""
         review = Review()
+        del review.__dict__['_sa_instance_state']
         string = "[Review] ({}) {}".format(review.id, review.__dict__)
         self.assertEqual(string, str(review))

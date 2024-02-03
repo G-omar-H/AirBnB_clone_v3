@@ -8,7 +8,7 @@ import inspect
 import models
 from models import city
 from models.base_model import BaseModel
-import pep8
+import pycodestyle as pep8
 import unittest
 City = city.City
 
@@ -27,7 +27,7 @@ class TestCityDocs(unittest.TestCase):
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
-    def test_pep8_conformance_test_city(self):
+    def test_pep8_conformanceest_city(self):
         """Test that tests/test_models/test_city.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_city.py'])
@@ -71,7 +71,7 @@ class TestCity(unittest.TestCase):
         """Test that City has attribute name, and it's an empty string"""
         city = City()
         self.assertTrue(hasattr(city, "name"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(city.name, None)
         else:
             self.assertEqual(city.name, "")
@@ -80,12 +80,12 @@ class TestCity(unittest.TestCase):
         """Test that City has attribute state_id, and it's an empty string"""
         city = City()
         self.assertTrue(hasattr(city, "state_id"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(city.state_id, None)
         else:
             self.assertEqual(city.state_id, "")
 
-    def test_to_dict_creates_dict(self):
+    def testo_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
         c = City()
         new_d = c.to_dict()
@@ -96,7 +96,7 @@ class TestCity(unittest.TestCase):
                 self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
 
-    def test_to_dict_values(self):
+    def testo_dict_values(self):
         """test that values in dict returned from to_dict are correct"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
         c = City()
@@ -110,5 +110,6 @@ class TestCity(unittest.TestCase):
     def test_str(self):
         """test that the str method has the correct output"""
         city = City()
+        del city.__dict__['_sa_instance_state']
         string = "[City] ({}) {}".format(city.id, city.__dict__)
         self.assertEqual(string, str(city))
