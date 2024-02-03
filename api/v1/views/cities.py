@@ -73,6 +73,7 @@ def update_state_id(state_id):
         abort(404)
     if "name" not in data.keys():
         abort(400, "Missing name")
+    data["state_id"] = state_id
     city = City(**data)
     city.save()
     return jsonify(city.to_dict()), 201
