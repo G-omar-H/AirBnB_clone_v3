@@ -20,7 +20,6 @@ else:
 
 class BaseModel:
     """The BaseModel class from which future classes will be derived"""
-
     if models.storage_t == "db":
         id = Column(String(60), primary_key=True)
         created_at = Column(DateTime, default=datetime.utcnow)
@@ -32,7 +31,7 @@ class BaseModel:
         self.created_at = datetime.now()
         self.updated_at = self.created_at
         for key, value in kwargs.items():
-            if key == "__class__":
+            if key == '__class__':
                 continue
             setattr(self, key, value)
             if type(self.created_at) is str:
@@ -42,9 +41,8 @@ class BaseModel:
 
     def __str__(self):
         """String representation of the BaseModel class"""
-        return "[{:s}] ({:s}) {}".format(
-            self.__class__.__name__, self.id, self.__dict__
-        )
+        return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
+                                         self.__dict__)
 
     def save(self):
         """updates the attribute 'updated_at' with the current datetime"""
@@ -63,8 +61,8 @@ class BaseModel:
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
         if secure_pwd:
-            if "password" in new_dict:
-                del new_dict["password"]
+            if 'password' in new_dict:
+                del new_dict['password']
         return new_dict
 
     def delete(self):
