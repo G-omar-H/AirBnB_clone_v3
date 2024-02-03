@@ -68,7 +68,7 @@ def update_place_by_id(city_id):
     """
     data = request.get_json()
     if not data:
-        abort(400, "Not a json")
+        abort(400, "Not a JSON")
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
@@ -91,7 +91,7 @@ def update_place(place_id):
     """
     data = request.get_json()
     if not data:
-        abort(400, "Not a json")
+        abort(400, "Not a JSON")
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
