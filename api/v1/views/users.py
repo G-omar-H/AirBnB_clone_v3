@@ -55,6 +55,8 @@ def get_rid_of_user(user_id):
 def create_user():
     """
     create a new instance of |User
+    Returns:
+        obj: new user
     """
     data = request.get_json()
     if not data:
