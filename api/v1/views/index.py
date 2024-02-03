@@ -23,7 +23,7 @@ classes = {
 }
 
 
-@app_views.route("/status")
+@app_views.route("/status", methods=['GET'])
 def status_check():
     """
     return the status of the api
@@ -31,7 +31,7 @@ def status_check():
     return jsonify({"status": "OK"})
 
 
-@app_views.route("/stats")
+@app_views.route("/stats", methods=['GET'])
 def stats():
     """
     return raport about the objects counter
