@@ -2,10 +2,10 @@
 """
 listing all the states
 """
+from api.v1.views import app_views
 from flask import Flask, Blueprint, jsonify, request, make_response, abort
 from models import storage
 from models.state import State
-from api.v1.views import app_views
 
 
 @app_views.route("/states", strict_slashes=False, methods=["GET"])
