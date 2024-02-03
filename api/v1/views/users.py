@@ -10,13 +10,12 @@ from models import storage
 
 
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=["GET"])
-def users_by_id(user_id):
+def get_user(user_id):
     """
     returns the user under the give id
     Args:
         user_id (str): state's id
     """
-    tmp = []
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
@@ -53,13 +52,13 @@ def get_rid_of_user(user_id):
 
 
 @app_views.route("/users", strict_slashes=False, methods=["POST"])
-def creates_user():
+def create_user():
     """
     create a new instance of |User
     """
     data = request.get_json()
     if not data:
-        abort(400, "Not a json")
+        abort(400, "Not a JSON")
     if "email" not in data.keys():
         abort(400, "Missing email")
     if "password" not in data.keys():
@@ -78,7 +77,7 @@ def create_user(user_id):
     """
     data = request.get_json()
     if not data:
-        abort(400, "Not a json")
+        abort(400, "Not a JSON")
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
