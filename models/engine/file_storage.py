@@ -1,19 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
-import json
-from models.base_model import BaseModel
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
-classes = {
-            'BaseModel': BaseModel, 'User': User, 'Place': Place,
-            'State': State, 'City': City, 'Amenity': Amenity,
-            'Review': Review
-          }
 
 
 class FileStorage:
@@ -59,6 +46,19 @@ class FileStorage:
 
     def reload(self):
         """Loads storage dictionary from file"""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
+
+        classes = {
+                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review
+                  }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
@@ -75,17 +75,27 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """ retrieves """
-        if cls in classes.values() and id and type(id) is str:
-            d_obj = self.all(cls)
-            for key, value in d_obj.items():
-                if key.split(".")[1] == id:
-                    return value
-        return None
+        """
+        returns object based on it's class and id
+        None if not found
+        Args:
+            id (int): id of the class instance
+            cls (obj): class object_
+        """
+        key = f"{cls.__name__}.{id}"
+        if key in self.__objects.keys():
+            return self.__objects[f"{cls.__name__}.{id}"]
+        else:
+            return None
 
     def count(self, cls=None):
-        """ counts """
-        data = self.all(cls)
-        if cls in classes.values():
-            data = self.all(cls)
-        return len(data)
+        """
+        returns number of objects in storage matching the given class.
+        if no class count number of all objects in storage
+
+        Args:
+            cls (_obj_, optional): class object to count. Defaults to None.
+        """
+        if cls:
+            return len(self.all(cls))
+        return len(self.all())
