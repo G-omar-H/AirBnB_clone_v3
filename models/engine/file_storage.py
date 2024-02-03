@@ -59,7 +59,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """delete obj from __objects if it’s inside"""
+        """delete obj from __objects if it's inside"""
         if obj is not None:
             key = obj.__class__.__name__ + '.' + obj.id
             if key in self.__objects:
@@ -71,7 +71,7 @@ class FileStorage:
 
     def get(self, cls, id):
         """ retrieves """
-        if cls in classes.values() and id and type(id) == str:
+        if cls in classes.values() and id and type(id) is str:
             d_obj = self.all(cls)
             for key, value in d_obj.items():
                 if key.split(".")[1] == id:
