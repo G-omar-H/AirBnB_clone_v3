@@ -104,8 +104,7 @@ class DBStorage:
         key = f"{cls.__name__}.{id}"
         if key in self.all().keys():
             return self.__session.query(cls).filter_by(id=id).first()
-        else:
-            return None
+        return None
 
     def count(self, cls=None):
         """
