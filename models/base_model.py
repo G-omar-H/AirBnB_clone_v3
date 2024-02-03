@@ -22,10 +22,9 @@ class BaseModel:
     """The BaseModel class from which future classes will be derived"""
 
     if models.storage_t == "db":
-        id = Column(String(60), unique=True, nullable=False, primary_key=True)
-        created_at = Column(DateTime, nullable=False,
-                            default=datetime.utcnow())
-        updated_at = Column(DateTime, nullable=True, default=datetime.utcnow())
+        id = Column(String(60), primary_key=True)
+        created_at = Column(DateTime, default=datetime.utcnow)
+        updated_at = Column(DateTime, default=datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
@@ -43,8 +42,6 @@ class BaseModel:
 
     def __str__(self):
         """String representation of the BaseModel class"""
-        if "_sa_instance_state" in self.__dict__.keys():
-            del self.__dict__["_sa_instance_state"]
         return "[{:s}] ({:s}) {}".format(
             self.__class__.__name__, self.id, self.__dict__
         )
