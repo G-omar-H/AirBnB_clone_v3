@@ -18,15 +18,11 @@ def cities_by_id(place_id):
     Args:
         state_id (str): state's id
     """
-    tmp = []
-    amenities = storage.all(Amenity)
-
-    if storage.get(Place, place_id) is None:
+    place = storage.get(Place, place_id)
+    if place is None:
         abort(404)
-    for amenity in amenities.values():
-        if place_id == amenity.place_id:
-            tmp.append(amenity.to_dict())
-    return jsonify(tmp)
+    amenities = [obj.to_dict() for obj in place.amenities]
+    return jsonify(amenities)
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
@@ -43,9 +39,9 @@ def get_rid_of_city(place_id, amenity_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    if amenity.id not in place.amenity_ids:
+    if amenity not in place.amenities:
         abort(404)
-    storage.delete(amenity)
+    place.amenities.remove(amenity)
     storage.save()
     return (jsonify({}), 200)
 
