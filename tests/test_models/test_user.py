@@ -8,9 +8,8 @@ import inspect
 import models
 from models import user
 from models.base_model import BaseModel
-import pycodestyle as pep8
+import pep8
 import unittest
-from models import storage
 User = user.User
 
 
@@ -21,13 +20,19 @@ class TestUserDocs(unittest.TestCase):
         """Set up for the doc tests"""
         cls.user_f = inspect.getmembers(User, inspect.isfunction)
 
-    def test_pycodestyleconformance_user(self):
-        """Test that models/user.py conforms to pycodestyle"""
-        pycodestyle = pep8.StyleGuide(quiet=True)
+    def test_pep8_conformance_user(self):
+        """Test that models/user.py conforms to PEP8."""
+        pep8s = pep8.StyleGuide(quiet=True)
+        result = pep8s.check_files(['models/user.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
 
-    def test_pycodestyleconformance_test_user(self):
-        """Test that tests/test_models/test_user.py conforms to pycodestyle"""
-        pycodestyle = pep8.StyleGuide(quiet=True)
+    def test_pep8_conformance_test_user(self):
+        """Test that tests/test_models/test_user.py conforms to PEP8."""
+        pep8s = pep8.StyleGuide(quiet=True)
+        result = pep8s.check_files(['tests/test_models/test_user.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
 
     def test_user_module_docstring(self):
         """Test for the user.py module docstring"""
@@ -66,7 +71,7 @@ class TestUser(unittest.TestCase):
         """Test that User has attr email, and it's an empty string"""
         user = User()
         self.assertTrue(hasattr(user, "email"))
-        if models.storage == 'db':
+        if models.storage_t == 'db':
             self.assertEqual(user.email, None)
         else:
             self.assertEqual(user.email, "")
@@ -75,7 +80,7 @@ class TestUser(unittest.TestCase):
         """Test that User has attr password, and it's an empty string"""
         user = User()
         self.assertTrue(hasattr(user, "password"))
-        if models.storage == 'db':
+        if models.storage_t == 'db':
             self.assertEqual(user.password, None)
         else:
             self.assertEqual(user.password, "")
@@ -84,7 +89,7 @@ class TestUser(unittest.TestCase):
         """Test that User has attr first_name, and it's an empty string"""
         user = User()
         self.assertTrue(hasattr(user, "first_name"))
-        if models.storage == 'db':
+        if models.storage_t == 'db':
             self.assertEqual(user.first_name, None)
         else:
             self.assertEqual(user.first_name, "")
@@ -93,7 +98,7 @@ class TestUser(unittest.TestCase):
         """Test that User has attr last_name, and it's an empty string"""
         user = User()
         self.assertTrue(hasattr(user, "last_name"))
-        if models.storage == 'db':
+        if models.storage_t == 'db':
             self.assertEqual(user.last_name, None)
         else:
             self.assertEqual(user.last_name, "")
@@ -105,7 +110,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(type(new_d), dict)
         self.assertFalse("_sa_instance_state" in new_d)
         for attr in u.__dict__:
-            if attr != "_sa_instance_state":
+            if attr is not "_sa_instance_state":
                 self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
 
@@ -123,6 +128,5 @@ class TestUser(unittest.TestCase):
     def test_str(self):
         """test that the str method has the correct output"""
         user = User()
-        del user.__dict__['_sa_instance_state']
         string = "[User] ({}) {}".format(user.id, user.__dict__)
         self.assertEqual(string, str(user))
