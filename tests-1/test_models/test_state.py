@@ -9,7 +9,7 @@ import models
 import os
 from models import state
 from models.base_model import BaseModel
-import pycodestyle as pep8
+import pep8
 import unittest
 State = state.State
 

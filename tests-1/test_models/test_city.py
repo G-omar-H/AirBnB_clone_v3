@@ -8,7 +8,7 @@ import inspect
 from models import city
 from models.base_model import BaseModel
 import os
-import pycodestyle as pep8
+import pep8
 import unittest
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 City = city.City

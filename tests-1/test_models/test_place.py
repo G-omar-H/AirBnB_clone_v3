@@ -8,7 +8,7 @@ import inspect
 import models
 from models import place
 from models.base_model import BaseModel
-import pycodestyle as pep8
+import pep8
 import os
 import unittest
 from sqlalchemy.orm.collections import InstrumentedList

@@ -18,7 +18,7 @@ from models.user import User
 import MySQLdb
 import json
 import os
-import pycodestyle as pep8
+import pep8
 import unittest
 FileStorage = file_storage.FileStorage
 DBStorage = db_storage.DBStorage
