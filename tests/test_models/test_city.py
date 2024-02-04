@@ -71,7 +71,7 @@ class TestCity(unittest.TestCase):
         """Test that City has attribute name, and it's an empty string"""
         city = City()
         self.assertTrue(hasattr(city, "name"))
-        if models.storage == 'db':
+        if models.storage_t == 'db':
             self.assertEqual(city.name, None)
         else:
             self.assertEqual(city.name, "")
@@ -80,7 +80,7 @@ class TestCity(unittest.TestCase):
         """Test that City has attribute state_id, and it's an empty string"""
         city = City()
         self.assertTrue(hasattr(city, "state_id"))
-        if models.storage == 'db':
+        if models.storage_t == 'db':
             self.assertEqual(city.state_id, None)
         else:
             self.assertEqual(city.state_id, "")
@@ -110,6 +110,5 @@ class TestCity(unittest.TestCase):
     def test_str(self):
         """test that the str method has the correct output"""
         city = City()
-        del city.__dict__["_sa_instance_state"]
         string = "[City] ({}) {}".format(city.id, city.__dict__)
         self.assertEqual(string, str(city))
