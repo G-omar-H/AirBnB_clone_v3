@@ -61,6 +61,7 @@ class BaseModel:
         Delete the current instance from the storage (models.storage)
          by calling the method delete
         """
+        from models import storage
         storage.delete(self)
 
     def to_dict(self):
