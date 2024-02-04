@@ -5,8 +5,8 @@ test console
 import unittest
 from unittest.mock import patch
 from io import StringIO
-import pep8
-import pep8 as pycodestyle
+import pycodestyle as pep8
+import pycodestyle
 import os
 import json
 import console
