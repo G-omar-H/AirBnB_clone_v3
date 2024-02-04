@@ -50,7 +50,7 @@ def delete_amenity(place_id, amenity_id):
             amenity.save()
         else:
             abort(404)
-    return jsonify({}, 200)
+    return jsonify({}), 200
 
 
 @app_views.route("places/<place_id>/amenities/<amenity_id>",
@@ -72,4 +72,4 @@ def link_amenity(place_id, amenity_id):
     if amenity not in place_amenities:
         place_amenities.append(amenity)
     else:
-        return jsonify(amenity.to_dict(), 200)
+        return jsonify(amenity.to_dict()), 200
