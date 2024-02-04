@@ -5,7 +5,7 @@ view for City object that handles all defaults RESTFUL API actions
 
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
-from models import storage, City, Place
+from models import storage, City, Place, User
 import requests
 import json
 
@@ -76,6 +76,8 @@ def update_place_by_id(city_id):
         abort(400, "Missing name")
     if "user_id" not in data.keys():
         abort(400, "Missing user_id")
+    if storage.get(User, data['user_id']) is None:
+        abort(404)
     data["city_id"] = city_id
     place = Place(**data)
     place.save()
