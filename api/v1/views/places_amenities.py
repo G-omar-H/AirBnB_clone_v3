@@ -1,23 +1,19 @@
 #!/usr/bin/python3
-"""
-view for City object that handles all defaults RESTFUL API actions
-"""
-
+"""places_amenities.py"""
+import os
 from api.v1.views import app_views
-from flask import Flask, jsonify, abort, request
-from models import storage, Place, Amenity
-import requests
-import json
+from flask import abort, jsonify, make_response, request
+from models import storage
+from models.amenity import Amenity
+from models.place import Place
+from flasgger.utils import swag_from
 
 
-@app_views.route("/places/<place_id>/amenities",
-                 strict_slashes=False, methods=["GET"])
-def cities_by_id(place_id):
-    """
-    returns list of cities under the give state's id
-    Args:
-        state_id (str): state's id
-    """
+@app_views.route('/places/<string:place_id>/amenities', methods=['GET'],
+                 strict_slashes=False)
+@swag_from('documentation/place_amenity/get_id.yml', methods=['GET'])
+def get_amenities(place_id):
+    """ retrieves all amenities from a place """
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
@@ -25,43 +21,37 @@ def cities_by_id(place_id):
     return jsonify(amenities)
 
 
-@app_views.route("/places/<place_id>/amenities/<amenity_id>",
-                 strict_slashes=False, methods=["DELETE"])
-def get_rid_of_city(place_id, amenity_id):
-    """
-    delette a city
-    Args:
-        city_id (str): city id to delete
-    """
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
-        abort(404)
+@app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
+                 methods=['DELETE'], strict_slashes=False)
+@swag_from('documentation/place_amenity/delete.yml', methods=['DELETE'])
+def delete_amenity(place_id, amenity_id):
+    """ delete amenity from place """
     place = storage.get(Place, place_id)
     if place is None:
+        abort(404)
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
         abort(404)
     if amenity not in place.amenities:
         abort(404)
     place.amenities.remove(amenity)
     storage.save()
-    return (jsonify({}), 200)
+    return jsonify({})
 
 
-@app_views.route("/places/<place_id>/amenities/<amenity_id>",
-                 strict_slashes=False, methods=["POST"])
-def update_state_id(place_id, amenity_id):
-    """
-    create a new instance of City
-    Args:
-        state_id (str): state's id
-    """
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
-        abort(404)
+@app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
+                 methods=['POST'], strict_slashes=False)
+@swag_from('documentation/place_amenity/post.yml', methods=['POST'])
+def post_amenity2(place_id, amenity_id):
+    """ post amenity by id """
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    if amenity.id in place.amenity_ids:
-        return jsonify(amenity.to_dict()), 200
-    place.amenities.append(amenity)
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
+        abort(404)
+    if amenity in place.amenities:
+        return (jsonify(amenity.to_dict()), 200)
+    place.amenities.append(obj)
     storage.save()
-    return (jsonify(amenity.to_dict()), 201)
+    return (jsonify(amenity.to_dict(), 201))
