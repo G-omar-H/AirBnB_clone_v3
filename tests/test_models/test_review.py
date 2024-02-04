@@ -8,7 +8,7 @@ import inspect
 import models
 from models import review
 from models.base_model import BaseModel
-import pep8
+import pycodestyle as pep8
 import unittest
 Review = review.Review
 
@@ -71,7 +71,7 @@ class TestReview(unittest.TestCase):
         """Test Review has attr place_id, and it's an empty string"""
         review = Review()
         self.assertTrue(hasattr(review, "place_id"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(review.place_id, None)
         else:
             self.assertEqual(review.place_id, "")
@@ -80,7 +80,7 @@ class TestReview(unittest.TestCase):
         """Test Review has attr user_id, and it's an empty string"""
         review = Review()
         self.assertTrue(hasattr(review, "user_id"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(review.user_id, None)
         else:
             self.assertEqual(review.user_id, "")
@@ -89,7 +89,7 @@ class TestReview(unittest.TestCase):
         """Test Review has attr text, and it's an empty string"""
         review = Review()
         self.assertTrue(hasattr(review, "text"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(review.text, None)
         else:
             self.assertEqual(review.text, "")
@@ -119,5 +119,6 @@ class TestReview(unittest.TestCase):
     def test_str(self):
         """test that the str method has the correct output"""
         review = Review()
+        del review.__dict__["_sa_instance_state"]
         string = "[Review] ({}) {}".format(review.id, review.__dict__)
         self.assertEqual(string, str(review))

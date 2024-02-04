@@ -8,7 +8,7 @@ import inspect
 import models
 from models import state
 from models.base_model import BaseModel
-import pep8
+import pycodestyle as pep8
 import unittest
 State = state.State
 
@@ -71,7 +71,7 @@ class TestState(unittest.TestCase):
         """Test that State has attribute name, and it's as an empty string"""
         state = State()
         self.assertTrue(hasattr(state, "name"))
-        if models.storage_t == 'db':
+        if models.storage == 'db':
             self.assertEqual(state.name, None)
         else:
             self.assertEqual(state.name, "")
@@ -101,5 +101,6 @@ class TestState(unittest.TestCase):
     def test_str(self):
         """test that the str method has the correct output"""
         state = State()
+        del state.__dict__["_sa_instance_state"]
         string = "[State] ({}) {}".format(state.id, state.__dict__)
         self.assertEqual(string, str(state))
