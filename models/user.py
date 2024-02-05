@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Integer, String, Column
 from sqlalchemy.orm import relationship
+import hashlib
 from os import getenv
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
@@ -20,9 +21,11 @@ class User(BaseModel, Base):
 
         places = relationship("Place", backref="user", cascade="all,delete")
         reviews = relationship("Review", backref="user", cascade="all,delete")
-
+        password = hashlib.md5(password)
     else:
         email = ""
         password = ""
         first_name = ""
         last_name = ""
+
+        password = hashlib.md5(password)
