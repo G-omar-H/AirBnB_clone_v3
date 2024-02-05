@@ -7,6 +7,7 @@ import hashlib
 from os import getenv
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
+m = hashlib.md5()
 
 
 class User(BaseModel, Base):
@@ -21,11 +22,18 @@ class User(BaseModel, Base):
 
         places = relationship("Place", backref="user", cascade="all,delete")
         reviews = relationship("Review", backref="user", cascade="all,delete")
-        password = hashlib.md5(password)
     else:
         email = ""
-        password = ""
+        password = b""
         first_name = ""
         last_name = ""
 
-        password = hashlib.md5(password)
+    def __init__(self, *args, **kwargs):
+        """initializes user"""
+        super().__init__(*args, **kwargs)
+
+    def __setattr__(self, k, v):
+        """sets user pasword"""
+        if k == "password":
+            v = hashlib.md5(v.encode()).hexdigest()
+        super().__setattr__(k, v)

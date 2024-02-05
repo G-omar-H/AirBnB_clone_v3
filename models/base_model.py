@@ -78,6 +78,6 @@ class BaseModel:
         if "_sa_instance_state" in dictionary.keys():
             del dictionary["_sa_instance_state"]
         if storage_type == "db":
-            if 'password' in dictionary.keys():
+            if 'password' in dictionary:
                 del dictionary['password']
         return dictionary
