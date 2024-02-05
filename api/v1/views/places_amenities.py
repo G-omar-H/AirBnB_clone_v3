@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """places_amenities.py"""
-import os
+from os import getenv
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
 from models.amenity import Amenity
 from models.place import Place
+
+stge_type = getenv('HBNB_TYPE_STORAGE')
 
 
 @app_views.route('/places/<string:place_id>/amenities', methods=['GET'],
@@ -48,6 +50,9 @@ def post_amenity2(place_id, amenity_id):
         abort(404)
     if amenity in place.amenities:
         return jsonify(amenity.to_dict()), 200
-    place.amenities.append(amenity)
+    if stge_type == 'db':
+        place.amenities.append(amenity)
+    else:
+        place.amenity_ids.append(amenity_id)
     storage.save()
     return jsonify(amenity.to_dict()), 201

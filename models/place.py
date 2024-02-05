@@ -85,7 +85,7 @@ class Place(BaseModel, Base):
             from models import storage
 
             amenins = []
-            for k, v in storage.all():
+            for k, v in storage.all(Amenity).items():
                 if k.partition(".")[0] == "Amenity":
                     if v.id in self.amenity_ids:
                         amenins.append(v)
