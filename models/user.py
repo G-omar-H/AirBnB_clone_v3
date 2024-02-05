@@ -28,10 +28,6 @@ class User(BaseModel, Base):
         first_name = ""
         last_name = ""
 
-    def __init__(self, *args, **kwargs):
-        """initializes user"""
-        super().__init__(*args, **kwargs)
-
     def __setattr__(self, k, v):
         """sets user pasword"""
         if k == "password":
