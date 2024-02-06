@@ -31,8 +31,8 @@ class FileStorage:
             if type(cls) is str:
                 if (key.split(".")[0] == cls):
                     result.update({key: self.__objects[key]})
-                else:
-                       if (key.split(".")[0] == cls.__name__):
+            else:
+                if (key.split(".")[0] == cls.__name__):
                     result.update({key: self.__objects[key]})
         return result
 
