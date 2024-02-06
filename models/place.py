@@ -10,14 +10,16 @@ from os import getenv
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
-place_amenity = Table(
-    "place_amenity",
-    Base.metadata,
-    Column("place_id", String(60), ForeignKey("places.id"), primary_key=True),
-    Column("amenity_id", String(60),
-           ForeignKey("amenities.id"),
-           primary_key=True),
-)
+if storage_type == "db":
+    place_amenity = Table(
+        "place_amenity",
+        Base.metadata,
+        Column("place_id", String(60),
+               ForeignKey("places.id"), primary_key=True),
+        Column("amenity_id", String(60),
+               ForeignKey("amenities.id"),
+               primary_key=True),
+    )
 
 
 class Place(BaseModel, Base):
@@ -56,6 +58,10 @@ class Place(BaseModel, Base):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = []
+
+        def __init__(self, *args, **kwargs):
+            """initializes Place"""
+            super().__init__(*args, **kwargs)
 
         @property
         def reviews(self):

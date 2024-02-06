@@ -17,7 +17,10 @@ def get_amenities(place_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    amenities = [obj.to_dict() for obj in place.amenities]
+    if stge_type == 'db':
+        amenities = [obj.to_dict() for obj in place.amenities]
+    else:
+        amenities = [obj.to_dict() for obj in place.amenities]
     return jsonify(amenities)
 
 
@@ -37,6 +40,7 @@ def delete_amenity(place_id, amenity_id):
         place.amenities.remove(amenity)
     else:
         place.amenity_ids.remove(amenity_id)
+    place.save()
     storage.save()
     return jsonify({}), 200
 
@@ -57,5 +61,7 @@ def post_amenity2(place_id, amenity_id):
         place.amenities.append(amenity)
     else:
         place.amenity_ids.append(amenity_id)
+    place.save()
+    amenity.save()
     storage.save()
     return jsonify(amenity.to_dict()), 201
